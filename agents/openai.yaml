@@ -1,0 +1,7 @@
+interface:
+  display_name: "Biomedical FigureYa Atlas"
+  short_description: "Find and adapt R biomedical figure templates"
+  default_prompt: "Use $biomedical-figureya-atlas to find the closest FigureYa R template and generate publication-ready plotting code."
+
+policy:
+  allow_implicit_invocation: true

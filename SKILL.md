@@ -1,170 +1,140 @@
 ---
 name: biomedical-figureya-atlas
-description: Biomedical FigureYa Atlas should be used as a biomedical scientific figure gallery, visual catalog, reference image library, and R plotting template atlas for research publication figures. Use it when the user needs to create, modify, imitate, classify, or get advice on R-based scientific plots, biomedical visualizations, biostatistics figures, bioinformatics/omics figures, or paper-quality graphics. It extends the public FigureYa R plotting repository into an academic biomedical figure atlas with a categorized catalog of 312+ tools split into general biostatistics/medical statistics and bioinformatics/omics analysis, with visual preview images, reference Rmd/R code, plot-type indexes, GitHub fallback links, and color scheme recommendations. Use it to match user requirements or reference-image style to relevant FigureYa implementations and generate complete plotting solutions.
+description: >-
+  R-first biomedical scientific figure atlas built from the public FigureYa repository. Use when the user needs to find, classify, imitate, adapt, or generate R code for biomedical publication figures, including biostatistics/medical statistics plots, bioinformatics and omics visualizations, paper-figure recreation, visual style matching from preview images, FigureYa template selection, color palette recommendations, and journal-ready SVG/PDF/PNG export advice. Prefer local catalog search, preview images, and bundled R/Rmd reference code before web fallbacks. Do not use for interactive dashboards or non-biomedical illustration-first graphics.
 ---
 
 # Biomedical FigureYa Atlas
 
-Biomedical FigureYa Atlas is an academic biomedical figure reference skill derived from the public FigureYa project, a collection of 312+ standardized biomedical visualization tools. It helps users choose between general biostatistics figures and bioinformatics/omics figures, inspect visual previews synced from the FigureYa web gallery, reference existing implementations, and generate publication-ready R code with suitable color schemes.
+Use this skill as a fast retrieval-and-adaptation layer over the local FigureYa atlas. The goal is not to copy FigureYa code verbatim; the goal is to identify the closest local visual and analytical pattern, then adapt it into clean, runnable R code for the user's data and publication context.
 
-## When to Use This Skill
+This is an **R-first** skill. FigureYa reference implementations are R/Rmd modules. If the user asks for Python, use this atlas only for visual/style reference and say clearly that the reusable implementations here are R-based.
 
-Use this skill when the user asks for:
-- R plotting code for any scientific or biomedical figure
-- Help with bioinformatics visualization (RNA-seq, scRNA-seq, mutation, CNV, methylation, etc.)
-- Color scheme recommendations for research figures
-- Converting paper figures into reproducible R code
-- Modifying or improving existing R plots
-- Advice on which R package or plot type suits their data
+## Operating Contract
 
-## Workflow
+Start by turning the user request into a compact figure contract:
 
-### Step 1: Understand the User's Requirement
+1. **Task mode**: `search`, `visual match`, `code adaptation`, `figure audit`, or `color advice`.
+2. **Data domain**: `biostatistics_general` or `bioinformatics_omics`.
+3. **Plot family**: heatmap, boxplot, violin, volcano, GSEA, survival, ROC, forest, mutation, single-cell, spatial, circos, correlation, etc.
+4. **Input shape**: expected columns or matrix/object type.
+5. **Output target**: R snippet, complete R script, candidate FigureYa IDs, preview comparison, or publication export package.
 
-Extract key information from the user's request:
-- **Plot type**: What kind of figure do they want? (heatmap, boxplot, volcano, GSEA, survival, etc.)
-- **Data type**: What data do they have? (expression matrix, clinical data, mutation data, single-cell, etc.)
-- **Purpose**: Is it for differential analysis, correlation, clustering, functional enrichment, etc.?
-- **Style**: Any specific journal style, color preference, or layout requirement?
+Ask at most one clarifying question only when the missing information changes the tool family or data shape. Otherwise, proceed with explicit assumptions and placeholders.
 
-If the user's request is vague, ask clarifying questions about data format and desired output.
+## Fast Retrieval Workflow
 
-### Step 2: Choose the Right Retrieval Index
+Use the smallest useful source first. Avoid loading giant catalogs or many Rmd files into context.
 
-Use the smallest relevant index first:
+1. **Route by domain**
+   - General medical/biostatistics: open `references/index_biostatistics.md`.
+   - Bioinformatics/omics: open `references/index_bioinformatics.md`.
+   - Unclear or cross-domain: search `references/figureya_catalog.json` with `jq` or `rg`; open `references/figureya_index.md` only if a human-readable overview is needed.
 
-- For general biological/medical statistics, load `references/index_biostatistics.md`. Examples: group comparison, boxplot, violin, barplot, correlation, regression, ROC/AUC, calibration, survival/KM, Cox, forest plot, Venn, distribution summaries.
-- For bioinformatics or omics analysis, load `references/index_bioinformatics.md`. Examples: RNA-seq, expression matrix, differential expression, GSEA/GO/KEGG/GSVA, single-cell, spatial transcriptomics, mutation, CNV, TMB, methylation, ATAC/ChIP, genome, circos, multi-omics, immune infiltration.
-- If the request is ambiguous, load `references/figureya_index.md`, then use the `primary_category`, `secondary_category`, and `analysis_tags` fields in `references/figureya_catalog.json` to narrow the candidates.
+2. **Search candidates**
+   - Prefer `rg` for keyword search across indexes and code.
+   - Prefer `jq` for structured filtering by `plot_types`, `primary_category`, `secondary_category`, `analysis_tags`, `libraries`, `input_formats`, and `id`.
+   - Match Chinese and English terms. Examples: `火山图|volcano`, `生存|survival|KM`, `富集|GSEA|GO|KEGG`, `突变|mutation|oncoplot`, `相关|correlation`.
 
-Match the user's requirement to relevant FigureYa tools by:
-1. Matching the broad category first (`biostatistics_general` vs `bioinformatics_omics`)
-2. Matching the secondary category (diagnostic model, survival, enrichment, single-cell, mutation/CNV, etc.)
-3. Looking up the plot type and keywords in tool descriptions (consider both Chinese and English)
-4. Checking the "快速查找表" for R package or input format matches
+3. **Rank only 1-3 tools**
+   - Choose by data-domain match first, then plot family, then input format, then package similarity, then visual similarity.
+   - Prefer modules with bundled code under `references/code/FigureYaXXX/`.
+   - Use the `github_url` from the catalog only when local code is missing or incomplete.
 
-Select the **top 1-3 most relevant tools** based on:
-- Category and plot type match
-- Data type similarity
-- Description relevance
-- Visual similarity if style matters
+4. **Open reference code sparingly**
+   - Read only the selected module's `.Rmd`, `.rmd`, and helper `.R` files.
+   - Inspect dependency loading, input examples, core plotting chunks, object names, color mapping, statistics, and export calls.
+   - Do not execute `install_dependencies.R` or network/download code without reviewing it first.
 
-### Step 3: Inspect Visual Style When It Matters
+5. **Adapt, do not paste**
+   - Produce a minimal, coherent R script for the user's data.
+   - Keep FigureYa's useful structure, package choices, and visual grammar, but remove demo-specific paths, downloads, and unrelated analysis.
 
-If the user asks to imitate a figure style, asks which FigureYa result to choose, provides a paper/reference image, or says they care about the "特色" of the plot:
+## Visual Matching Workflow
 
-1. Load `references/visual_index.md` or query `references/visual_catalog.json` for candidate tools.
-2. Treat the FigureYa web gallery as the visual authority: previews are synced from `gallery/FigureYaN.png` through `chapters.json`, then stored in `assets/previews/FigureYaXXX.jpg`.
-3. Skip entries with `preview_status: manual-excluded`; they are retained for code lookup but excluded from visual matching because the gallery preview is text/table/directory-like rather than a reusable plot style.
-4. Open the candidate preview images in `assets/previews/FigureYaXXX.jpg` or the grouped montage images in `assets/montages/montage_*.jpg`.
-5. Compare layout, panel structure, color mapping, legends, annotations, axes, labels, and statistical marks.
-6. Use the visual match to pick the final 1-3 FigureYa tools before reading code.
+Use visual assets when the user says they want to imitate a paper style, asks which FigureYa result to choose, supplies a reference image, or cares about layout/color/legend style.
 
-Important: the model cannot infer image details from a JSON path alone. It must explicitly open or display the preview/montage image when visual style drives the choice.
+1. Search `references/visual_catalog.json` or `references/visual_index.md` for candidate IDs.
+2. Ignore candidates with `preview_status: manual-excluded` or `visual_excluded: true` for style matching.
+3. Open the preview image at `assets/previews/FigureYaXXX.jpg`, or the relevant montage in `assets/montages/`.
+4. Compare panel layout, marks, color mapping, annotation style, legend placement, axes, statistical labels, and density of information.
+5. Select 1-3 final candidates before reading code.
 
-### Step 4: Read Reference Code
+Do not infer visual details from a filename or JSON path alone. Open the actual preview or montage whenever visual similarity is part of the decision.
 
-For each selected tool, read its `.Rmd` or `.rmd` file. The R Markdown source and local helper `.R` scripts are bundled in `references/code/FigureYaXXX/`. Focus on:
-- The requirement description and usage scenarios
-- Input data format (`easy_input*` files and descriptions)
-- The core plotting code chunks
-- Key parameters and customization points
-- Dependencies (libraries used)
+## Code Generation Rules
 
-If `references/code/FigureYaXXX/` or a required helper script is missing, use the tool's `github_url` in `references/figureya_catalog.json` or `references/visual_catalog.json`, or open `https://github.com/ying-ge/FigureYa/tree/main/FigureYaXXX`.
+Generate R code that is ready to adapt to real user data:
 
-Do NOT copy the code verbatim. Instead, understand:
-- How the data is processed before plotting
-- Which R packages and functions are used
-- How aesthetics (color, size, shape) are mapped to data
-- How the plot is saved/exported
+- Include dependency loading and installation hints, but do not run installs automatically.
+- Define a clear expected input schema near the top of the script.
+- Use placeholders like `input_file <- "your_data.csv"` instead of hardcoded local paths.
+- Use `ggplot2` for common statistical plots; use `ComplexHeatmap`, `circlize`, `survminer`, `clusterProfiler`, `enrichplot`, `maftools`, `Seurat`, or other specialized packages when the selected FigureYa pattern needs them.
+- Preserve statistical meaning: state test choice, grouping variable, `n`, confidence interval, p-value adjustment, or cutoff logic where relevant.
+- Export publication files with explicit size and resolution, usually PDF/SVG for editable/vector output plus PNG/TIFF for preview or submission.
+- Use comments in the user's language. If the user writes Chinese, bilingual comments are acceptable but keep them concise.
 
-### Step 5: Generate Plotting Solution
+When user data is absent, provide a small synthetic example only if it helps demonstrate column names or object structure. Label synthetic data clearly.
 
-Based on the reference code and user's specific needs, generate a complete R script or code snippet that includes:
+## Color And Style Rules
 
-1. **Dependency loading**: `library()` calls with installation hints if needed
-2. **Data preparation**: How to format the user's data for the plot
-3. **Plotting code**: Core ggplot2/base R/ComplexHeatmap/etc. code
-4. **Color scheme**: Apply appropriate colors from `references/color_schemes.md`
-5. **Saving/export**: PDF/PNG output with proper dimensions for publication
+Load `references/color_schemes.md` when the user asks about colors, journal style, heatmaps, multi-group categories, or final polishing.
 
-The generated code should:
-- Be ready to run (or clearly indicate where user data should be inserted)
-- Include comments in both Chinese and English if the user's request was in Chinese
-- Follow FigureYa's coding style (clean, modular, well-commented)
-- Use the simplest approach that achieves the desired result
+- Continuous data: prefer `viridis`, `Blues`, or controlled `colorRamp2`.
+- Diverging data: use blue-white-red or blue-white-orange with explicit midpoint.
+- Categorical data with 2-8 groups: use Okabe-Ito, `Dark2`, `Set2`, or a restrained journal-style palette.
+- More than 8 groups: prefer faceting, grouping, or annotation bars instead of adding many saturated colors.
+- Heatmaps: use `ComplexHeatmap::Heatmap()` plus `circlize::colorRamp2()` when precise mapping matters.
+- Avoid `rainbow()` for scientific figures unless reproducing an existing FigureYa pattern and explain the replacement when improving it.
 
-### Step 6: Provide Color Scheme Recommendations
+## Quality Gate Before Final Answer
 
-Load `references/color_schemes.md` and recommend specific color palettes based on:
-- Plot type (heatmap needs diverging/sequential, barplot needs categorical)
-- Number of categories/groups
-- Whether colorblind-friendly output is needed
-- Target journal style (Nature/Cell/Science have different conventions)
+Before delivering code or recommendations, check:
 
-Always provide the actual R code for applying the recommended colors.
+- The selected FigureYa ID(s) match the user's domain and plot family.
+- The expected input format is explicit.
+- Required packages are listed.
+- Demo paths, downloads, and private local paths are removed from generated code.
+- Figure export dimensions and formats are included when the user asks for publication-quality output.
+- If visual style was important, at least one preview or montage was actually opened.
+- Attribution is included when FigureYa patterns, code structure, or preview images influenced the result.
 
-## Key Guidelines
+## Source, Privacy, And Safety
 
-### Matching Logic
-- A request for "差异表达火山图" should match volcano plot tools
-- A request for "单细胞热图" should match scRNA-seq heatmap tools
-- A request for "基因富集分析图" should match GSEA/GO enrichment tools
-- A request for "常规统计图/生物学统计图" should start from `index_biostatistics.md`
-- A request for "生信统计/组学图/RNA-seq/单细胞/突变/CNV/富集" should start from `index_bioinformatics.md`
-- When multiple tools exist for the same plot type, prefer the one whose description most closely matches the user's data type
-- When the user cares about visual style, prefer the tool whose preview image most closely matches the desired layout before optimizing code details
+Biomedical FigureYa Atlas is derived from the public FigureYa repository: `https://github.com/ying-ge/FigureYa`.
 
-### Code Quality
-- Prefer ggplot2 for most plots unless base R or specialized packages (ComplexHeatmap, circlize) are clearly better
-- Avoid hardcoding file paths; use variables or comment placeholders
-- Set random seeds when the plot involves stochastic processes
-- Use `theme_bw()` or `theme_classic()` as starting themes for publication-ready plots
+Acknowledge FigureYa when using its plot patterns, code structure, gallery images, or examples. Treat bundled R/Rmd files as reference implementations, not as blindly executable scripts. Do not upload private user data to external services. Do not disclose private local paths or internal file names in user-facing output unless the user asks for an audit trail.
 
-### Color Guidelines
-- Continuous data: viridis, Blues, RdBu diverging
-- Categorical data (2-8 groups): Set1, Dark2, okabe_ito
-- Categorical data (9+ groups): Consider faceting or grouping instead of more colors
-- Heatmaps: Always use colorRamp2 for precise control
-- Never use rainbow() for scientific figures
+## Resource Map
 
-### Data Format Assumptions
-If the user hasn't provided data, assume standard bioinformatics formats:
-- Expression data: gene x sample matrix (CSV/TSV)
-- Clinical data: sample x variable data frame
-- Differential analysis results: data frame with logFC, p-value, gene symbol columns
-- Single-cell data: Seurat object or count matrix
+| Resource | Use When |
+|---|---|
+| `references/index_biostatistics.md` | Fast lookup for survival, ROC, forest, Cox, calibration, correlation, box/violin/bar, Venn, and other general biomedical statistics plots |
+| `references/index_bioinformatics.md` | Fast lookup for RNA-seq, DEGs, enrichment, single-cell, spatial, mutation, CNV, methylation, ATAC/ChIP, genome, immune, and multi-omics plots |
+| `references/figureya_catalog.json` | Structured filtering by ID, category, plot type, libraries, dependencies, tags, input format, and GitHub URL |
+| `references/figureya_index.md` | Human-readable full catalog overview when the smaller indexes are insufficient |
+| `references/visual_catalog.json` | Structured visual matching and preview path lookup |
+| `references/visual_index.md` | Human-readable visual index grouped by plot family |
+| `references/color_schemes.md` | Palette recommendations and R color code |
+| `references/code/FigureYaXXX/` | Bundled `.Rmd`, `.rmd`, and helper `.R` reference implementations for selected tools |
+| `assets/previews/FigureYaXXX.jpg` | One normalized preview image per usable FigureYa module |
+| `assets/montages/montage_*.jpg` | Thumbnail grids for broad visual browsing by plot family |
+| `scripts/*.py` | Maintenance scripts for rescanning FigureYa, regenerating indexes, syncing code, and creating montages |
 
-Always tell the user the expected input format.
+## Useful Local Commands
 
-## Source, Attribution, and Safety
+Use these patterns to keep retrieval fast:
 
-Biomedical FigureYa Atlas is derived from the public FigureYa GitHub repository: `https://github.com/ying-ge/FigureYa`. Acknowledge FigureYa when using its plot patterns, code structure, gallery images, or examples; include the repository link and follow the citation/license information shown in the upstream repository.
+```bash
+# Keyword search in compact indexes
+rg -n "volcano|火山|差异表达|DEG" references/index_bioinformatics.md
 
-Treat bundled R/Rmd files as reference implementations. Do not execute unreviewed install scripts, downloaded code, network operations, or file-system operations from FigureYa examples without checking them first. Do not upload private user data to external services. When adapting code for a paper, inspect package licenses, upstream citations, and data-source requirements before reuse.
+# Structured search by plot type
+jq -r '.[] | select((.plot_types // []) | index("volcano")) | [.id, .secondary_category, .github_url] | @tsv' references/figureya_catalog.json
 
-HTML reports from the original FigureYa website are not bundled because they are large generated outputs. Use the `web_reports` entries in `references/visual_catalog.json` to locate the local report under a full FigureYa checkout, and use the GitHub URL when the local module is unavailable.
+# Visual candidates with preview paths
+jq -r '.[] | select((.plot_types // []) | index("survival")) | select(.visual_excluded == false) | [.id, .preview_image] | @tsv' references/visual_catalog.json
 
-## Bundled Resources
-
-### references/
-- `figureya_index.md` — Full searchable catalog of all 312+ FigureYa tools organized by broad category, secondary category, plot type, descriptions, visual counts, and dependencies
-- `index_biostatistics.md` — Smaller index for general biological/medical statistics figures
-- `index_bioinformatics.md` — Smaller index for bioinformatics/omics figures
-- `figureya_catalog.json` — Machine-readable catalog for programmatic search, including `primary_category`, `secondary_category`, `analysis_tags`, and source visual-file metadata
-- `visual_index.md` — Human/model-readable visual preview index grouped by category
-- `visual_catalog.json` — Machine-readable visual catalog with preview image paths, gallery source paths, and web report links from `chapters.json`
-- `visual_exclusions.json` — Manually reviewed FigureYa IDs whose gallery images should stay out of visual matching/montages
-- `color_schemes.md` — Curated color palette recommendations for different plot types and journals
-- `code/FigureYaXXX/` — FigureYa R Markdown source files plus local `.R` helper scripts needed by `source()` calls
-
-### scripts/
-- `scan_figureya.py` — Script to re-scan FigureYa directories and update the catalog (for maintenance)
-- `generate_index.py` — Script to regenerate the Markdown index from the JSON catalog
-- `create_montages.py` — Script to sync previews from the FigureYa web gallery (`gallery/FigureYaN.png`) and generate thumbnail montages. It falls back to Rmd output scanning only when no gallery directory is available.
-- `sync_reference_code.py` — Script to copy lightweight `.Rmd`/`.rmd`/`.R` source files from a FigureYa checkout into `references/code` without copying HTML reports, images, or data files.
-
-### assets/
-- `previews/FigureYaXXX.jpg` — One normalized visual preview per non-excluded FigureYa tool, synced from the FigureYa web gallery
-- `montages/montage_*.jpg` — Visual thumbnail grids grouped by plot type (heatmap, boxplot, GSEA, etc.). These can be shown to users or opened by the model to identify the plot style they want
+# List bundled code for a selected module
+find references/code/FigureYa59volcanoV2 -maxdepth 1 -type f | sort
+```
