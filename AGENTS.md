@@ -5,10 +5,12 @@ This repository is an agent-usable biomedical figure skill. Start with `SKILL.md
 ## Use Order
 
 1. Read `SKILL.md`.
-2. Route the request to either `references/index_biostatistics.md` or `references/index_bioinformatics.md`.
-3. Use `rg` for text search and `jq` for structured searches in `references/figureya_catalog.json` and `references/visual_catalog.json`.
-4. When visual style matters, open the actual preview under `assets/previews/` or a montage under `assets/montages/`; do not infer style from filenames alone.
-5. Read only the selected 1-3 modules under `references/code/FigureYaXXX/` before generating or adapting R code.
+2. Open `references/figure-contract.md` to classify task mode, data domain, plot family, input shape, and output target.
+3. Use `references/retrieval-workflow.md` plus either `references/index_biostatistics.md` or `references/index_bioinformatics.md` to retrieve candidates.
+4. Use `rg` for text search and `jq` for structured searches in `references/figureya_catalog.json` and `references/visual_catalog.json`.
+5. When visual style matters, open `references/visual-matching.md`, then open the actual preview under `assets/previews/` or a montage under `assets/montages/`; do not infer style from filenames alone.
+6. Read only the selected 1-3 modules under `references/code/FigureYaXXX/` before generating or adapting R code.
+7. Open `references/r-code-adaptation.md` for complete R scripts and `references/qa-contract.md` before final delivery.
 
 ## Guardrails
 

@@ -29,10 +29,19 @@ Use this skill when you need to:
 ```text
 biomedical-figureya-atlas/
 ├── SKILL.md
+├── AGENTS.md
+├── CLAUDE.md
+├── agents/
+│   └── openai.yaml
 ├── assets/
 │   ├── previews/
 │   └── montages/
 ├── references/
+│   ├── figure-contract.md
+│   ├── retrieval-workflow.md
+│   ├── visual-matching.md
+│   ├── r-code-adaptation.md
+│   ├── qa-contract.md
 │   ├── figureya_catalog.json
 │   ├── figureya_index.md
 │   ├── index_biostatistics.md
@@ -48,11 +57,12 @@ biomedical-figureya-atlas/
 ## How AI Agents Should Use It
 
 1. Read `SKILL.md` for the workflow.
-2. Start with `references/index_biostatistics.md` for general biological or medical statistics figures.
-3. Start with `references/index_bioinformatics.md` for omics, single-cell, mutation, CNV, enrichment, methylation, or genome figures.
-4. Use `references/visual_index.md` and `assets/montages/` when visual style matters.
-5. Use `references/visual_catalog.json` for machine filtering and GitHub fallback links.
-6. Read the selected module under `references/code/FigureYaXXX/` before adapting R code.
+2. Open `references/figure-contract.md` to classify task mode, domain, plot family, input shape, and output target.
+3. Use `references/retrieval-workflow.md` plus `references/index_biostatistics.md` or `references/index_bioinformatics.md` to find candidates.
+4. Use `references/visual-matching.md`, `references/visual_index.md`, and `assets/montages/` when visual style matters.
+5. Use `references/figureya_catalog.json` and `references/visual_catalog.json` for structured filtering and GitHub fallback links.
+6. Read only the selected 1-3 modules under `references/code/FigureYaXXX/` before adapting R code.
+7. Use `references/r-code-adaptation.md` for script generation and `references/qa-contract.md` before final delivery.
 
 ## Maintenance
 

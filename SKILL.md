@@ -8,11 +8,13 @@ description: >-
 
 Use this skill as a fast retrieval-and-adaptation layer over the local FigureYa atlas. The goal is not to copy FigureYa code verbatim; the goal is to identify the closest local visual and analytical pattern, then adapt it into clean, runnable R code for the user's data and publication context.
 
+This skill follows progressive disclosure: keep `SKILL.md` as the routing layer, then load only the relevant files in `references/` for contract, retrieval, visual matching, R adaptation, QA, indexes, code, or color decisions.
+
 This is an **R-first** skill. FigureYa reference implementations are R/Rmd modules. If the user asks for Python, use this atlas only for visual/style reference and say clearly that the reusable implementations here are R-based.
 
 ## Operating Contract
 
-Start by turning the user request into a compact figure contract:
+Start by turning the user request into a compact figure contract. Open `references/figure-contract.md` when the task requires candidate selection, code adaptation, visual matching, or figure review.
 
 1. **Task mode**: `search`, `visual match`, `code adaptation`, `figure audit`, or `color advice`.
 2. **Data domain**: `biostatistics_general` or `bioinformatics_omics`.
@@ -24,7 +26,7 @@ Ask at most one clarifying question only when the missing information changes th
 
 ## Fast Retrieval Workflow
 
-Use the smallest useful source first. Avoid loading giant catalogs or many Rmd files into context.
+Use the smallest useful source first. Avoid loading giant catalogs or many Rmd files into context. Open `references/retrieval-workflow.md` for command patterns, bilingual keyword routing, and candidate-ranking rules.
 
 1. **Route by domain**
    - General medical/biostatistics: open `references/index_biostatistics.md`.
@@ -52,7 +54,7 @@ Use the smallest useful source first. Avoid loading giant catalogs or many Rmd f
 
 ## Visual Matching Workflow
 
-Use visual assets when the user says they want to imitate a paper style, asks which FigureYa result to choose, supplies a reference image, or cares about layout/color/legend style.
+Use visual assets when the user says they want to imitate a paper style, asks which FigureYa result to choose, supplies a reference image, or cares about layout/color/legend style. Open `references/visual-matching.md` for the full preview/montage workflow.
 
 1. Search `references/visual_catalog.json` or `references/visual_index.md` for candidate IDs.
 2. Ignore candidates with `preview_status: manual-excluded` or `visual_excluded: true` for style matching.
@@ -64,7 +66,7 @@ Do not infer visual details from a filename or JSON path alone. Open the actual 
 
 ## Code Generation Rules
 
-Generate R code that is ready to adapt to real user data:
+Generate R code that is ready to adapt to real user data. Open `references/r-code-adaptation.md` before producing a complete script or adapting a selected FigureYa module.
 
 - Include dependency loading and installation hints, but do not run installs automatically.
 - Define a clear expected input schema near the top of the script.
@@ -89,7 +91,7 @@ Load `references/color_schemes.md` when the user asks about colors, journal styl
 
 ## Quality Gate Before Final Answer
 
-Before delivering code or recommendations, check:
+Open `references/qa-contract.md` before final delivery of code, candidate recommendations, or publication-style figure workflows. At minimum, check:
 
 - The selected FigureYa ID(s) match the user's domain and plot family.
 - The expected input format is explicit.
@@ -109,6 +111,11 @@ Acknowledge FigureYa when using its plot patterns, code structure, gallery image
 
 | Resource | Use When |
 |---|---|
+| `references/figure-contract.md` | Need to convert a user request into task mode, data domain, plot family, input shape, output target, and selection rules |
+| `references/retrieval-workflow.md` | Need command patterns, bilingual keyword routing, structured `jq` filters, and candidate-ranking rubric |
+| `references/visual-matching.md` | User wants to imitate a paper/reference style or compare FigureYa previews/montages |
+| `references/r-code-adaptation.md` | Need to adapt selected `.Rmd`/`.R` modules into clean runnable R code |
+| `references/qa-contract.md` | Before final delivery, candidate recommendations, code generation, or publication workflow packaging |
 | `references/index_biostatistics.md` | Fast lookup for survival, ROC, forest, Cox, calibration, correlation, box/violin/bar, Venn, and other general biomedical statistics plots |
 | `references/index_bioinformatics.md` | Fast lookup for RNA-seq, DEGs, enrichment, single-cell, spatial, mutation, CNV, methylation, ATAC/ChIP, genome, immune, and multi-omics plots |
 | `references/figureya_catalog.json` | Structured filtering by ID, category, plot type, libraries, dependencies, tags, input format, and GitHub URL |
