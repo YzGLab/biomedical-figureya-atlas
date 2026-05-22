@@ -1,0 +1,11 @@
+{
+  "excluded_preview_ids": [
+    "FigureYa22FPKM2TPM",
+    "FigureYa23count2TPM",
+    "FigureYa32ID_table",
+    "FigureYa41GEO2lncRNA_update",
+    "FigureYa45V2",
+    "FigureYa58lncRNAreannotation"
+  ],
+  "reason": "Manually removed because the gallery image is text/table/directory-like rather than a reusable statistical figure preview."
+}
