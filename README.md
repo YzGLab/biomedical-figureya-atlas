@@ -73,6 +73,12 @@ https://github.com/ying-ge/FigureYa
 
 Please acknowledge FigureYa when using its plot patterns, code structure, gallery images, or examples. Follow the citation and license information from the upstream FigureYa project.
 
+## License
+
+This repository is released under [CC BY-NC-SA 4.0](LICENSE) to align with the upstream FigureYa licensing terms. This means attribution is required, commercial use is restricted, and derivative works should be shared under the same license.
+
+Third-party packages, libraries, datasets, and external tools referenced by the bundled R/Rmd examples retain their own licenses and citation requirements.
+
 ## Safety
 
 Treat bundled R/Rmd files as reference implementations. Review code before execution, especially install scripts, downloaded dependencies, network calls, and file-system operations. Do not upload private research data to external services. Check package licenses, data-source requirements, and upstream citation requirements before reusing code in a manuscript or public project.

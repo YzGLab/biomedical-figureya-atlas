@@ -1,0 +1,43 @@
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+
+Biomedical FigureYa Atlas is licensed under the Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International Public License
+(CC BY-NC-SA 4.0), unless otherwise noted.
+
+License summary:
+
+- Attribution: You must give appropriate credit to Biomedical FigureYa Atlas
+  and to the upstream FigureYa project when reusing, adapting, or sharing this
+  work.
+- NonCommercial: You may not use this work for commercial purposes without
+  separate permission from the relevant rights holders.
+- ShareAlike: If you remix, transform, or build upon this work, you must
+  distribute your contributions under the same license.
+- No additional restrictions: You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license permits.
+
+This repository is derived from the public FigureYa project:
+
+https://github.com/ying-ge/FigureYa
+
+Upstream FigureYa citation and licensing requirements still apply to FigureYa
+content, code patterns, gallery images, examples, and derived materials included
+or referenced in this atlas.
+
+Third-party packages, libraries, datasets, and external tools referenced by the
+R/Rmd examples retain their own licenses and citation requirements.
+
+Full license text:
+
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+
+Human-readable summary:
+
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+No warranty:
+
+This work is provided for research, educational, and reference purposes without
+warranty of any kind. Review all code, dependencies, data sources, privacy
+constraints, and citation requirements before using it in a manuscript,
+analysis, product, or public project.
